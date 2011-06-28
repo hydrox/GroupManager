@@ -367,8 +367,9 @@ public class WorldsHolder {
             } catch (IOException ex) {
                 GroupManager.logger.log(Level.SEVERE, null, ex);
                 return;
+            } finally {
+                GroupManager.logger.severe("Failed to load world " + worldName + "...");
             }
-            GroupManager.logger.severe("Failed to load world " + worldName + "...");
         }
     }
 

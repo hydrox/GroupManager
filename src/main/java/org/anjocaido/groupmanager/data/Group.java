@@ -40,7 +40,7 @@ public class Group extends DataUnit implements Cloneable {
     @Override
     public Group clone() {
         Group clone = new Group(getDataSource(), this.getName());
-        clone.inherits = ((ArrayList<String>) this.getInherits().clone());
+        clone.inherits = this.getInherits();
         for(String perm: this.getPermissionList()){
             clone.addPermission(perm);
         }
@@ -59,7 +59,7 @@ public class Group extends DataUnit implements Cloneable {
             return null;
         }
         Group clone = getDataSource().createGroup(this.getName());
-        clone.inherits = ((ArrayList<String>) this.getInherits().clone());
+        clone.inherits = this.getInherits();
         for(String perm: this.getPermissionList()){
             clone.addPermission(perm);
         }
@@ -74,7 +74,8 @@ public class Group extends DataUnit implements Cloneable {
      * Lol... version 0.6 had a problem because this.
      * @return the inherits
      */
-    public ArrayList<String> getInherits() {
+    @SuppressWarnings("unchecked")
+	public ArrayList<String> getInherits() {
         return (ArrayList<String>) inherits.clone();
     }
 

@@ -13,6 +13,7 @@ import org.anjocaido.groupmanager.data.Group;
 import org.anjocaido.groupmanager.dataholder.WorldDataHolder;
 import org.anjocaido.groupmanager.data.User;
 import org.anjocaido.groupmanager.utils.PermissionCheckResult;
+import org.anjocaido.groupmanager.utils.PermissionCheckResult.Type;
 import org.bukkit.entity.Player;
 
 /**
@@ -619,8 +620,7 @@ public class AnjoPermissionsHandler extends PermissionsReaderInterface {
     @Deprecated
     public boolean checkGroupPermissionWithInheritance(Group start, String permission, List<Group> alreadyChecked) {
         PermissionCheckResult result = checkGroupPermissionWithInheritance(start, permission);
-        if (result.resultType.equals(result.resultType.EXCEPTION)
-                || result.resultType.equals(result.resultType.FOUND)) {
+        if (result.resultType.equals(Type.EXCEPTION) || result.resultType.equals(Type.FOUND)) {
             return true;
         }
         return false;
@@ -682,8 +682,7 @@ public class AnjoPermissionsHandler extends PermissionsReaderInterface {
     @Deprecated
     public Group nextGroupWithPermission(Group start, String permission, List<Group> alreadyChecked) {
         PermissionCheckResult result = checkGroupPermissionWithInheritance(start, permission);
-        if (result.resultType.equals(result.resultType.EXCEPTION)
-                || result.resultType.equals(result.resultType.FOUND)) {
+        if (result.resultType.equals(Type.EXCEPTION) || result.resultType.equals(Type.FOUND)) {
             return (Group) checkGroupPermissionWithInheritance(start, permission).owner;
         }
         return null;
