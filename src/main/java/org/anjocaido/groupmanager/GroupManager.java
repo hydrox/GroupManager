@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
@@ -182,6 +183,20 @@ public class GroupManager extends JavaPlugin {
         return worldsHolder.getDefaultWorld();
     }
 
+    private void setGroupOnAllWorlds(User user, Group group) {
+        Iterator<OverloadedWorldHolder> iter = worldsHolder.allWorldsDataList().iterator();
+        while (iter.hasNext()) {
+            OverloadedWorldHolder overloadedWorldHolder = iter.next();
+            User auxUser = overloadedWorldHolder.getUser(user.getName());
+            try {
+                auxUser.setGroup(group);
+            } catch (Exception e) {
+                GroupManager.logger.severe("failed to set group on " + auxUser.getName() +
+                    " for world " + overloadedWorldHolder.getName());
+            }
+        }
+    }
+
     /**
      * Called when a command registered by this plugin is received.
      * @param sender 
@@ -305,7 +320,7 @@ public class GroupManager extends JavaPlugin {
                         return false;
                     }
                     //PARECE OK
-                    auxUser.setGroup(auxGroup);
+                    setGroupOnAllWorlds(auxUser, auxGroup);
                     sender.sendMessage(ChatColor.YELLOW + "You changed player '" + auxUser.getName() + "' group to '" + auxGroup.getName() + "'.");
 
                     return true;
@@ -1479,7 +1494,7 @@ public class GroupManager extends JavaPlugin {
                         return false;
                     }
                     //PARECE OK
-                    auxUser.setGroup(auxGroup);
+                    setGroupOnAllWorlds(auxUser, auxGroup);
                     sender.sendMessage(ChatColor.YELLOW + "You changed " + auxUser.getName() + " group to " + auxGroup.getName() + ".");
 
                     return true;
@@ -1535,7 +1550,7 @@ public class GroupManager extends JavaPlugin {
                         return false;
                     }
                     //PARECE OK
-                    auxUser.setGroup(auxGroup);
+                    setGroupOnAllWorlds(auxUser, auxGroup);
                     sender.sendMessage(ChatColor.YELLOW + "You changed " + auxUser.getName() + " group to " + auxGroup.getName() + ".");
 
                     return true;
